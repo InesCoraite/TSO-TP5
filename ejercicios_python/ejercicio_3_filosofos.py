@@ -73,6 +73,19 @@ def filosofo(id, rondas=3):
         # FIN TODO
         # =========================================================================
 
+        if id == NUM_FILOSOFOS - 1 or id % 2 == 1:
+            primero, segundo = tenedor_der, tenedor_izq
+        else:
+            primero, segundo = tenedor_izq, tenedor_der
+
+        tenedores[primero].acquire()
+        tenedores[segundo].acquire()
+        try:
+            comer(id)
+        finally:
+            tenedores[segundo].release()
+            tenedores[primero].release()
+
 if __name__ == "__main__":
     print("=" * 60)
     print(" Iniciando Simulación de los Filósofos Comensales (UNJu FI)")
